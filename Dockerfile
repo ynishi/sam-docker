@@ -4,7 +4,8 @@ ENV DOCKER_CLIENT_VERSION=18.03.1-ce
 RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLIENT_VERSION}.tgz \
   | tar -xzC /usr/local/bin --strip=1 docker/docker
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+RUN set eux; \
+  curl -sL https://deb.nodesource.com/setup_8.x | bash - \
   && apt-get install -y nodejs \
   && nodejs -v \
   && npm -v
@@ -14,8 +15,11 @@ WORKDIR /project
 COPY . /project
 
 RUN set eux; \
-  pip install aws-sam-cli; \
-  sam --version
+  pip install aws-sam-cli awscli \
+  && sam --version \
+  && aws --version
+
+VOLUME ["/root/.aws"]
 
 # prepare prj,
 # sam init --runtime nodejs &&

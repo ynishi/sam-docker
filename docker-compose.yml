@@ -8,3 +8,16 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock 
       - .:/project
+      - ./.aws:/root/.aws
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_DEFAULT_REGION
+    links:
+      - dynamo
+  dynamo:
+    image: cnadiminti/dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./dynamodb:/dynamodb_local_db
