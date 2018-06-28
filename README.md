@@ -8,9 +8,19 @@
 cd ${repo}
 docker build -t sam-docker .
 ```
-### setup sample sam-app
+### setup sample sam-app and sample dynamo data
 ```
 sudo sh setup.sh
+```
+### aws configure(develop in local, any dummy is ok.)
+```
+docker-compose run sam aws configure
+```
+* Or export vars
+```
+export AWS_ACCESS_KEY_ID="DUMMY_AWS_ACCESS_KEY_ID"
+export AWS_SECRET_ACCESS_KEY="DUMMY_AWS_SECRET_ACCESS_KEY"
+export AWS_DEFAULT_REGION="DUMMY_AWS_DEFAULT_REGION"
 ```
 ### invoke
 ```
