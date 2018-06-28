@@ -12,6 +12,11 @@ docker build -t sam-docker .
 ```
 sudo sh setup.sh
 ```
+### invoke
+```
+docker-compose run sam /bin/bash -c "sam local generate-event api > event_file.json"
+docker-compose run sam sam local invoke HelloWorldFunction --event event_file.json
+```
 ### run(local api start)
 ```
 docker-compose up
