@@ -8,11 +8,14 @@ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock \
     && cd sam-app/hello_world \
     && npm install \
     && npm install aws-sdk --save \
+    && npm install eslint \
+      eslint-config-google \
+      eslint-plugin-node --save-dev \
     && npm test"
 
 # set vars for local develop
 sed -i -r "s#CodeUri:.+#CodeUri: $(pwd)/sam-app/hello_world#g" sam-app/template.yaml
-sed -i -r "s#PARAM1:.+#DYNAMO_HOST: $(hostname)#g" sam-app/template.yaml
+sed -i -r "s#PARAM1:.+#DYNAMO_ENDPOINT: http://$(hostname):8000#g" sam-app/template.yaml
 
 # create sample dynamo table
 docker-compose up -d

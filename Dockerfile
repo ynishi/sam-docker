@@ -8,11 +8,12 @@ RUN set eux; \
   curl -sL https://deb.nodesource.com/setup_8.x | bash - \
   && apt-get install -y nodejs \
   && nodejs -v \
-  && npm -v
+  && npm -v \
+  && npm install -g js-beautify eslint-cli \
+  && js-beautify -v
 
 RUN mkdir /project
 WORKDIR /project
-COPY . /project
 
 RUN set eux; \
   pip install aws-sam-cli awscli \
