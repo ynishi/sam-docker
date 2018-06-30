@@ -1,31 +1,35 @@
-const AWS = require("aws-sdk");
-let response;
+const AWS = require('aws-sdk');
 
 AWS.config.update({
-    region: "us-west-2",
-    endpoint: process.env["DYNAMO_ENDPOINT"] 
+    region: 'us-west-2',
+    endpoint: process.env['DYNAMO_ENDPOINT'],
 });
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-var params = {
-    TableName: "Music",
-    Key: {
-        Artist: "No One You Know",
-        SongTitle: "Call Me Today"
-    }
-}
+const asyncAwaitGet = async () => {
+    let params = {
+        TableName: 'Music',
+        Key: {
+            Artist: 'No One You Know',
+            SongTitle: 'Call Me Today',
+        },
+    };
+    const musicData = await docClient.get(params).promise();
+    console.log(musicData);
+    const response = {
+        'statusCode': 200,
+        'body': JSON.stringify({
+            message: 'hello world',
+            data: musicData.Item,
+        }),
+    };
+    return response;
+};
 
 exports.lambda_handler = async (event, context, callback) => {
     try {
-        const res = await docClient.get(params).promise();
-        response = {
-            'statusCode': 200,
-            'body': JSON.stringify({
-                message: 'hello world',
-                data: res
-            })
-        };
-        console.log(res);
+        const response = await asyncAwaitGet();
+        console.log(response);
         callback(null, response);
     } catch (err) {
         console.error(err);
